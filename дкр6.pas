@@ -1,3 +1,4 @@
+uses crt;
 type
 TNode = record
 Data: integer;
@@ -56,3 +57,6 @@ Tail := Previous;
 List[Previous].Next := List[Current].Next;
 end;
 end;
+begin
+  writeln(Head,Tail,List,IsEmpty,Inc);
+end.
