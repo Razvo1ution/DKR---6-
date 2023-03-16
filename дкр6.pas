@@ -1,30 +1,58 @@
-﻿type
-NodePtr = ^Node;
-Node = record
-data: Integer;
-next: NodePtr;
+type
+TNode = record
+Data: integer;
+Next: integer;
 end;
 
 var
-head: NodePtr;
-node1, node2, node3: Node;
+List: array[1..100] of TNode;
+Head, Tail: integer;
 
+procedure InitList;
 begin
-//Узлыыыыыыыы
-node1.data := 10;
-node2.data := 20;
-node3.data := 30;
-
-// созд Cвязный список
-head := @node1;
-node1.next := @node2;
-node2.next := @node3;
-node3.next := nil;
-
-// исп св список
-while head <> nil do
-begin
-writeln(head^.data);
-head := head^.next;
+Head := 0;
+Tail := 0;
 end;
-end.
+
+function IsEmpty: boolean;
+begin
+Result := Head = 0;
+end;
+
+procedure AddNode(Data: integer);
+begin
+if Tail = 0 then
+begin
+Inc(Head);
+List[Head].Data := Data;
+Tail := Head;
+end
+else
+begin
+Inc(Tail);
+List[Tail].Data := Data;
+List[Tail - 1].Next := Tail;
+end;
+end;
+
+procedure DeleteNode(Data: integer);
+var
+Current, Previous: integer;
+begin
+if IsEmpty then Exit;
+Current := Head;
+Previous := 0;
+while (Current <> 0) and (List[Current].Data <> Data) do
+begin
+Previous := Current;
+Current := List[Current].Next;
+end;
+if Current <> 0 then
+begin
+if Current = Head then
+Head := List[Head].Next;
+if Current = Tail then
+Tail := Previous;
+List[Previous].Next := List[Current].Next;
+end;
+end;
